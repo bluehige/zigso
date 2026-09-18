@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f3fa">
+  <meta name="description" content="10개의 장면을 한 조각씩. 설치 없이 즐기는 세로형 직소 퍼즐 ZIGSO.">
+  <title>ZIGSO · 한 조각의 여유</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css?v=1.0.0">
+</head>
+<body>
+  <div id="app">
+    <section id="loading" class="loading-screen" aria-live="polite">
+      <div class="brand-mark large">Z</div><h1>ZIGSO</h1>
+      <p id="loadingText">10개의 장면을 준비하고 있어요.</p>
+      <div class="progress-track"><i id="loadingBar"></i></div>
+      <small id="loadingSub">첫 실행에는 이미지 팩을 내려받습니다.</small>
+      <button id="retryLoad" class="primary" hidden>다시 불러오기</button>
+    </section>
+    <section id="home" hidden>
+      <header class="home-header"><a class="brand" href="./" aria-label="ZIGSO 처음으로"><span class="brand-mark">Z</span><span>ZIGSO<small>한 조각의 여유</small></span></a><button id="help" class="icon-button" aria-label="게임 방법"><span data-icon="help"></span></button></header>
+      <main class="home-main">
+        <div class="hero">
+          <span class="eyebrow">YOUR LITTLE PUZZLE BREAK</span>
+          <h1>한 조각씩,<br>나만의 장면.</h1>
+          <p>서두르지 않아도 괜찮아요.<br>다음 장면이 기다리고 있으니까.</p>
+          <div class="hero-art" aria-hidden="true"><div class="art-back"></div><img id="heroImage" alt=""><span class="art-tag">PIECE BY PIECE</span></div>
+        </div>
+        <div class="collection-progress"><span><span data-icon="collection"></span> 모은 장면 <b id="collected">0 / 10</b></span><div class="progress-track"><i id="collectionBar"></i></div></div>
+        <div class="section-label"><h2>오늘의 난이도</h2><span>회전 없이, 가볍게 시작</span></div>
+        <div id="difficulty" class="difficulty" role="group" aria-label="퍼즐 난이도">
+          <button data-diff="easy" class="selected" aria-pressed="true"><span class="difficulty-dots">●</span><strong>초급</strong><small>12 조각</small></button>
+          <button data-diff="normal" aria-pressed="false"><span class="difficulty-dots">● ●</span><strong>중급</strong><small>24 조각</small></button>
+          <button data-diff="hard" aria-pressed="false"><span class="difficulty-dots">● ● ●</span><strong>고급</strong><small>54 조각</small></button>
+        </div>
+        <button id="continueGame" class="primary start-button"><span data-icon="play"></span><span id="continueLabel">첫 번째 장면 시작하기</span><span data-icon="arrow"></span></button>
+        <div class="section-label album-heading"><h2>장면 컬렉션</h2><span id="albumNote">완성하면 다음 장면이 열려요</span></div>
+        <div id="stages" class="stages"></div>
+        <footer class="home-footer">진행 상황은 이 브라우저에 자동 저장됩니다.<br>로그인 없이 · 광고 없이 · 시간 제한 없이</footer>
+      </main>
+    </section>
+    <section id="game" hidden aria-label="퍼즐 플레이">
+      <header class="game-header">
+        <button id="back" class="icon-button" aria-label="저장하고 스테이지 선택으로"><span data-icon="back"></span></button>
+        <div class="game-title"><span id="stageLabel">STAGE 01 / 10</span><h1 id="stageTitle">첫 번째 만남</h1></div>
+        <button id="menu" class="icon-button" aria-label="일시 정지와 설정"><span data-icon="pause"></span></button>
+      </header>
+      <div class="game-status"><span id="difficultyTag" class="tag">초급 · 12조각</span><span class="piece-count"><b id="placedCount">0</b><span id="totalCount"> / 12</span></span><span class="clock"><span data-icon="clock"></span><time id="timer">00:00</time></span><div class="progress-track"><i id="gameBar"></i></div></div>
+      <div id="boardViewport" class="board-viewport"><div id="boardFrame" class="board-frame"><canvas id="board" tabindex="0" role="application" aria-label="퍼즐판. 조각을 선택한 뒤 빈칸을 누르세요. 키보드는 방향키와 Enter를 사용하세요."></canvas></div><span id="boardLoading" class="board-loading" hidden>장면을 불러오는 중…</span></div>
+      <div id="interactionTip" class="interaction-tip" aria-live="polite">조각을 끌거나, 조각을 누른 뒤 빈칸을 눌러요.</div>
+      <nav class="tools" aria-label="퍼즐 도움 도구">
+        <button id="preview"><span data-icon="image"></span><span>원본 보기</span></button>
+        <button id="guide" aria-pressed="false"><span data-icon="layers"></span><span>밑그림</span></button>
+        <button id="hint"><span data-icon="bulb"></span><span>힌트</span></button>
+        <button id="zoom" aria-pressed="false"><span data-icon="zoom"></span><span id="zoomLabel">확대</span></button>
+      </nav>
+      <section class="tray-section" aria-label="남은 퍼즐 조각">
+        <div class="tray-header"><button id="edges" class="filter-button" aria-pressed="false"><span data-icon="edges"></span>테두리만</button><span id="remainingLabel">남은 조각 12</span><button id="shuffle" class="text-button"><span data-icon="shuffle"></span>섞기</button></div>
+        <div class="tray-row"><button id="trayPrev" class="tray-arrow" aria-label="이전 조각"><span data-icon="back"></span></button><div id="tray" class="tray" role="group" aria-label="조각을 좌우로 넘겨 선택하세요"></div><button id="trayNext" class="tray-arrow" aria-label="다음 조각"><span data-icon="arrow"></span></button></div>
+        <div class="tray-footer"><span class="save-dot"></span><span id="saveStatus">자동 저장</span><span>좌우로 넘겨 조각을 찾아보세요</span></div>
+      </section>
+    </section>
+  </div>
+  <canvas id="dragPiece" class="drag-piece" hidden></canvas>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <dialog id="modal"><div id="modalContent"></div></dialog>
+  <noscript>이 퍼즐을 플레이하려면 브라우저에서 JavaScript를 켜주세요.</noscript>
+  <script type="module" src="app.js?v=1.0.0"></script>
+</body>
+</html>
